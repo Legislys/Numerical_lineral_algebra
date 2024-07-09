@@ -2,13 +2,14 @@ import numpy as np
 
 # Implentation of Laplace formula, algorithmically expenesive
 
-def Laplace_det(A):
-    if A.shape[0] != A.shape[1]:
-        return f'{A} is non-square matrix'
-    n = A.shape[0]
+def Laplace_determinant(B):
+    A = B.copy()
+    n = A.shape[1]
     if n == 1:
         return A[0, 0]
-    B = np.delete(A, 0, 1)
-    minors = np.array([np.delete(B, i, 0) for i in range(n)], ndmin=2)
-    signs = (-1)**np.arange(n)
-    return np.sum(signs * A[0, :] * np.array([Laplace_det(minor) for minor in minors]))
+    determinant = 0
+    for i in range(n):
+        minor = np.delete(np.delete(A, 0, 0), i, 1)
+        cofactor = ((-1) ** i) * A[0, i] * Laplace_determinant(minor)
+        determinant += cofactor
+    return determinant
