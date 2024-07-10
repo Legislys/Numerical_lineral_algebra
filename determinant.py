@@ -1,5 +1,5 @@
 import numpy as np
-
+from QR_decomposition import QR_givens_rotations
 # Implentation of Laplace formula, algorithmically expenesive
 
 def Laplace_determinant(B):
@@ -15,6 +15,7 @@ def Laplace_determinant(B):
     return determinant
 
 # More optimized code using Gauss elimination algorithm
+
 def determinant(B):
     A = B.copy()
     if A.shape[0] != A.shape[1]:
@@ -31,3 +32,6 @@ def determinant(B):
             A[j, :] = A[j, :] - (A[j, i]/A[i, i])*A[i, :]
     return np.prod(np.diag(A))
 
+def QR_determinant(B):
+    Q,R = QR_givens_rotations(B)
+    return np.prod(np.diag(R))
