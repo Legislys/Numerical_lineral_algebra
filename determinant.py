@@ -1,5 +1,6 @@
 import numpy as np
 from QR_decomposition import QR_givens_rotations
+
 # Implentation of Laplace formula, algorithmically expenesive
 
 def Laplace_determinant(B):

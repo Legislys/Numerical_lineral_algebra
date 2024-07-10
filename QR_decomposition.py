@@ -12,23 +12,19 @@ def QR_givens_rotations(B):
     n = R.shape[0]
     if n == 1:
         return R
-
-    to_be_zeroed = [(R[(i+1)::, i], i) for i in range(n-1)]
-    indices = [((i+1+np.array((abs(arg) >= tolerance).nonzero())), i)
-               for arg, i in to_be_zeroed]
     rotations = []
 
-    for indice, j in indices:
-        for i in indice[0]:
-            a = R[j, j]
-            b = R[i, j]
-            r = np.sqrt(a**2+b**2)
-            c = a/r
-            s = -b/r
-            rotation = np.identity(n)
-            rotation[j, j], rotation[i, i], rotation[i,j], rotation[j, i] = c, c, s, -s
-            rotations.append(rotation)
-            R = np.dot(rotation, R)
+    for j in range(n - 1):
+        for i in range(j + 1, n):
+            if abs(R[i, j]) >= tolerance:
+                a = R[j, j]
+                b = R[i, j]
+                r = np.hypot(a, b)
+                c = a / r
+                s = -b / r
+                rotation = np.identity(n)
+                rotation[j, j], rotation[i, i], rotation[i,j], rotation[j, i] = c, c, s, -s
+                rotations.append(rotation)
+                R = np.dot(rotation, R)
     Q = (np.linalg.multi_dot(rotations)).T
     return Q, R
-
