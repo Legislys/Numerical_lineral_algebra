@@ -13,8 +13,8 @@ def multiply_polynomials(x, y):
 
 
 def FFT_multiply_polynomials(x, y):
-    n = len(x)
+    n, m = len(x), len(y)
     a = x+[0]*n
-    b = y+[0]*n
+    b = y+[0]*m
     A = recursive_FFT(a)*recursive_FFT(b)
-    return inverse_recursive_FFT(A)/(2*n)
+    return inverse_recursive_FFT(A)/(n+m)
